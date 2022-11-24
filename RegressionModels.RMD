@@ -47,3 +47,5 @@ mtcars$am   <- factor(mtcars$am,labels=c("Automatic","Manual"))
 
 To help us understand the data, we build exploratory plots. Appendix - Plot 1, shows there is a definite impact on MPG by transmission with Automatic transmissions having a lower MPG.
 
+# Regression Analysis
+
