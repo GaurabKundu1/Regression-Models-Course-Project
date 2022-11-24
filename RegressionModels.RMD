@@ -21,9 +21,29 @@ Using simple linear regression analysis, we determine that there is a signficant
 
 # Exploratory Data Analysis
 
-##The Data "mtcars"
+## Loading Required Librarires
 
 ```{r}
+library(ggplot2)
+```
+
+## The Data "mtcars"
+
+```{r}
+data(mtcars)
+head(mtcars)
 str(mtcars)
 ```
+
+## Transform certain variables into factors
+
+```{r}
+mtcars$cyl  <- factor(mtcars$cyl)
+mtcars$vs   <- factor(mtcars$vs)
+mtcars$gear <- factor(mtcars$gear)
+mtcars$carb <- factor(mtcars$carb)
+mtcars$am   <- factor(mtcars$am,labels=c("Automatic","Manual"))
+```
+
+To help us understand the data, we build exploratory plots. Appendix - Plot 1, shows there is a definite impact on MPG by transmission with Automatic transmissions having a lower MPG.
 

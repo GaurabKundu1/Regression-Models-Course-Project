@@ -376,7 +376,22 @@ the weight, horsepower and discplacement held constant.</p>
 </div>
 <div id="exploratory-data-analysis" class="section level1">
 <h1>Exploratory Data Analysis</h1>
-<p>##The Data “mtcars”</p>
+<div id="loading-required-librarires" class="section level2">
+<h2>Loading Required Librarires</h2>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
+</div>
+<div id="the-data-mtcars" class="section level2">
+<h2>The Data “mtcars”</h2>
+<pre class="r"><code>data(mtcars)
+head(mtcars)</code></pre>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
 <pre class="r"><code>str(mtcars)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    32 obs. of  11 variables:
 ##  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
@@ -390,6 +405,15 @@ the weight, horsepower and discplacement held constant.</p>
 ##  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
 ##  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
 ##  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</code></pre>
+</div>
+<div id="transform-certain-variables-into-factors" class="section level2">
+<h2>Transform certain variables into factors</h2>
+<pre class="r"><code>mtcars$cyl  &lt;- factor(mtcars$cyl)
+mtcars$vs   &lt;- factor(mtcars$vs)
+mtcars$gear &lt;- factor(mtcars$gear)
+mtcars$carb &lt;- factor(mtcars$carb)
+mtcars$am   &lt;- factor(mtcars$am,labels=c(&quot;Automatic&quot;,&quot;Manual&quot;))</code></pre>
+</div>
 </div>
 
 
