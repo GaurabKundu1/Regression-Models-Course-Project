@@ -2,7 +2,8 @@
 title: "Regression Models Course Project"
 author: "Gaurab Kundu"
 date: "2022-11-24"
-output: html_document
+output:
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -86,4 +87,25 @@ summary(betterFit)
 ```
 
 The model explains 86.64% of the variance and as a result, cyl, disp, hp, wt did affect the correlation between mpg and am. Thus, we can say the difference between automatic and manual transmissions is 1.81 MPG.
+
+# Appendix
+
+## Plot 1 - Boxplot of MPG by transmission type
+
+```{r}
+boxplot(mpg ~ am, data = mtcars, col = (c("blue","green")), ylab = "Miles Per Gallon", xlab = "Transmission Type")
+```
+
+## Plot 2 - Pairs plot for the data set
+
+```{r}
+pairs(mpg ~ ., data = mtcars, col = (c("blue","green")))
+```
+
+## Plot 3 - Check residuals
+
+```{r}
+par(mfrow = c(2,2))
+plot(betterFit)
+```
 
