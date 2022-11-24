@@ -9,8 +9,7 @@ Quantify the MPG difference between automatic and manual transmissions
 
 ## Question
 
-Take the mtcars data set and write up an analysis to answer their question using regression models and exploratory data analyses.
-
+Take the \color{red}{\verb|mtcars|}mtcars data set and write up an analysis to answer their question using regression models and exploratory data analyses.
 Your report must be:
 
 Written as a PDF printout of a compiled (using knitr) R markdown document.
