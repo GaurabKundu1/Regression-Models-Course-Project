@@ -19,3 +19,9 @@ How different is the MPG between automatic and manual transmissions?
 
 Using simple linear regression analysis, we determine that there is a signficant difference between the mean MPG for automatic and manual transmission cars. Manual transmissions achieve a higher value of MPG compared to automatic transmission. This increase is approximately 2.1 MPG when switching from an automatic transmission to a manual one, with the weight, horsepower and discplacement held constant.
 
+# The Data "mtcars"
+
+```{r}
+str(mtcars)
+```
+
