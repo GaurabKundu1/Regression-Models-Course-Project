@@ -49,3 +49,41 @@ To help us understand the data, we build exploratory plots. Appendix - Plot 1, s
 
 # Regression Analysis
 
+We’ve visually seen that automatic is better for MPG, but we will now quantify this difference.
+
+```{r}
+aggregate(mpg~am, data = mtcars, mean)
+```
+
+Thus we hypothesize that automatic cars have an MPG 7.25 lower than manual cars. To determine if this is a significant difference, we use a t-test.
+
+```{r}
+D_automatic <- mtcars[mtcars$am == "Automatic",]
+D_manual <- mtcars[mtcars$am == "Manual",]
+t.test(D_automatic$mpg, D_manual$mpg)
+```
+
+The p-value is 0.001374, thus we can state this is a significant difference. Now to quantify this.
+
+```{r}
+init <- lm(mpg ~ am, data = mtcars)
+summary(init)
+```
+
+This shows us that the average MPG for automatic is 17.1 MPG, while manual is 7.2 MPG higher. The R2 value is 0.36 thus telling us this model only explains us 36% of the variance. As a result, we need to build a multivariate linear regression.
+
+The new model will use the other variables to make it more accurate. We explore the other variable via a pairs plot (Appendix - Plot 2) to see how all the variables correlate with mpg. From this we see that cyl, disp, hp, wt have the strongest correlation with mpg. We build a new model using these variables and compare them to the initial model with the anova function.
+
+```{r}
+betterFit <- lm(mpg~am + cyl + disp + hp + wt, data = mtcars)
+anova(init, betterFit)
+```
+
+This results in a p-value of 8.637e-08, and we can claim the betterFit model is significantly better than our init simple model. We double-check the residuals for non-normality (Appendix - Plot 3) and can see they are all normally distributed and homoskedastic.
+
+```{r}
+summary(betterFit)
+```
+
+The model explains 86.64% of the variance and as a result, cyl, disp, hp, wt did affect the correlation between mpg and am. Thus, we can say the difference between automatic and manual transmissions is 1.81 MPG.
+

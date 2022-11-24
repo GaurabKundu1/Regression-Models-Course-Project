@@ -420,6 +420,104 @@ Automatic transmissions having a lower MPG.</p>
 </div>
 <div id="regression-analysis" class="section level1">
 <h1>Regression Analysis</h1>
+<p>We’ve visually seen that automatic is better for MPG, but we will now
+quantify this difference.</p>
+<pre class="r"><code>aggregate(mpg~am, data = mtcars, mean)</code></pre>
+<pre><code>##          am      mpg
+## 1 Automatic 17.14737
+## 2    Manual 24.39231</code></pre>
+<p>Thus we hypothesize that automatic cars have an MPG 7.25 lower than
+manual cars. To determine if this is a significant difference, we use a
+t-test.</p>
+<pre class="r"><code>D_automatic &lt;- mtcars[mtcars$am == &quot;Automatic&quot;,]
+D_manual &lt;- mtcars[mtcars$am == &quot;Manual&quot;,]
+t.test(D_automatic$mpg, D_manual$mpg)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  D_automatic$mpg and D_manual$mpg
+## t = -3.7671, df = 18.332, p-value = 0.001374
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -11.280194  -3.209684
+## sample estimates:
+## mean of x mean of y 
+##  17.14737  24.39231</code></pre>
+<p>The p-value is 0.001374, thus we can state this is a significant
+difference. Now to quantify this.</p>
+<pre class="r"><code>init &lt;- lm(mpg ~ am, data = mtcars)
+summary(init)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = mpg ~ am, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.3923 -3.0923 -0.2974  3.2439  9.5077 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   17.147      1.125  15.247 1.13e-15 ***
+## amManual       7.245      1.764   4.106 0.000285 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.902 on 30 degrees of freedom
+## Multiple R-squared:  0.3598, Adjusted R-squared:  0.3385 
+## F-statistic: 16.86 on 1 and 30 DF,  p-value: 0.000285</code></pre>
+<p>This shows us that the average MPG for automatic is 17.1 MPG, while
+manual is 7.2 MPG higher. The R2 value is 0.36 thus telling us this
+model only explains us 36% of the variance. As a result, we need to
+build a multivariate linear regression.</p>
+<p>The new model will use the other variables to make it more accurate.
+We explore the other variable via a pairs plot (Appendix - Plot 2) to
+see how all the variables correlate with mpg. From this we see that cyl,
+disp, hp, wt have the strongest correlation with mpg. We build a new
+model using these variables and compare them to the initial model with
+the anova function.</p>
+<pre class="r"><code>betterFit &lt;- lm(mpg~am + cyl + disp + hp + wt, data = mtcars)
+anova(init, betterFit)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: mpg ~ am
+## Model 2: mpg ~ am + cyl + disp + hp + wt
+##   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1     30 720.90                                  
+## 2     25 150.41  5    570.49 18.965 8.637e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>This results in a p-value of 8.637e-08, and we can claim the
+betterFit model is significantly better than our init simple model. We
+double-check the residuals for non-normality (Appendix - Plot 3) and can
+see they are all normally distributed and homoskedastic.</p>
+<pre class="r"><code>summary(betterFit)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = mpg ~ am + cyl + disp + hp + wt, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.9374 -1.3347 -0.3903  1.1910  5.0757 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 33.864276   2.695416  12.564 2.67e-12 ***
+## amManual     1.806099   1.421079   1.271   0.2155    
+## cyl6        -3.136067   1.469090  -2.135   0.0428 *  
+## cyl8        -2.717781   2.898149  -0.938   0.3573    
+## disp         0.004088   0.012767   0.320   0.7515    
+## hp          -0.032480   0.013983  -2.323   0.0286 *  
+## wt          -2.738695   1.175978  -2.329   0.0282 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.453 on 25 degrees of freedom
+## Multiple R-squared:  0.8664, Adjusted R-squared:  0.8344 
+## F-statistic: 27.03 on 6 and 25 DF,  p-value: 8.861e-10</code></pre>
+<p>The model explains 86.64% of the variance and as a result, cyl, disp,
+hp, wt did affect the correlation between mpg and am. Thus, we can say
+the difference between automatic and manual transmissions is 1.81
+MPG.</p>
 </div>
 
 
